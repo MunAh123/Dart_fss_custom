@@ -32,10 +32,14 @@ class Corp(object):
 
 def get_corp_list():
     corp_list = []
-    corp_url = "http://kind.krx.co.kr/corpgeneral/corpList.do"
-    url = '{}?method=download&searchType=13'.format(corp_url)
+    api_key = "f93aa72ed8104217931e191505590ee5b2c9b91e"
+    corp_url = "https://opendart.fss.or.kr/api/corpCode.xml"
+    url = '{}?crtfc_key={}'.format(corp_url, api_key)
+    print(url)
     resp = request_get(url=url, timeout=120)
+    print(resp)
     soup = BeautifulSoup(resp.text, 'html.parser')
+    print(soup)
     rows = soup.find_all('tr')
     for row in rows:
         cols = row.find_all('td')
@@ -50,18 +54,19 @@ def get_corp_list():
 
 ####################################
 # tests
-# get_corp_list()
+get_corp_list()
 
-_SEARCH_URL_ = "https://opendart.fss.or.kr/api/"
-api_key = "f93aa72ed8104217931e191505590ee5b2c9b91e"
+# _SEARCH_URL_ = "https://opendart.fss.or.kr/api/"
+# api_key = "f93aa72ed8104217931e191505590ee5b2c9b91e"
+#
+# url = _SEARCH_URL_ + "company.json"
+# print(url)
+# params = dict(
+#     crtfc_key=api_key,
+#     corp_code = "00828497"
+# )
+# resp = request_get(url=url, params=params)
+# print(resp)
+# soup = BeautifulSoup(resp.text, 'html.parser')
+# print(soup)
 
-url = _SEARCH_URL_ + "company.json"
-print(url)
-params = dict(
-    crtfc_key=api_key,
-    corp_code = "00828497"
-)
-resp = request_get(url=url, params=params)
-print(resp)
-soup = BeautifulSoup(resp.text, 'html.parser')
-print(soup)
