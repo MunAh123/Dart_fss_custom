@@ -18,3 +18,6 @@
 from xbrl import XBRLParser, GAAP, GAAPSerializer
 xbrl_parser = XBRLParser()
 xbrl = xbrl_parser.parse("20190401004781_ifrs/00126380_2011-04-30.xbrl")
+
+if __name__ == '__main__':
+    print("a")

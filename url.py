@@ -65,8 +65,6 @@ class LoadApi(object):
         elif result == "4":
             reprt_code = "11011"
 
-
-
         # make url
         url = "https://opendart.fss.or.kr/api/"+type_s+".xml?crtfc_key=" + self.auth_key
         if corp_code:
@@ -89,5 +87,5 @@ class LoadApi(object):
     def response_url(self):
         url = self.get_url()
         response = requests.get(url)
-        print(response.json())
+        return response
 
