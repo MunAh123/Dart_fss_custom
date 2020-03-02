@@ -43,10 +43,67 @@ class CorpList(object):
         return return_bs
 
     def find_by_stock_code(self, stock_code: str):
-        found_bs = self.__corp_bs.find("stock_code", text=query)
+        found_bs = self.__corp_bs.find("stock_code", text= stock_code)
         if found_bs == None:
             return False
         else:
             return_bs = found_bs.parent
         return return_bs
 
+    def get_stock_code_list_api(self):
+        list_final = []
+        codes = self.__corp_bs.find_all("stock_code")
+        for code in codes:
+            if code.get_text() != " ":
+                code_text = code.get_text()
+                list_final.append(code_text)
+        # print(list_final)
+        # print(len(list_final))
+        return list_final
+
+    def get_stock_code_list_web(self):
+        url = '{}?method=download&searchType=13'.format('http://kind.krx.co.kr/corpgeneral/corpList.do')
+        list_final = []
+        url = '{}&marketType={}'.format(url, "allMkt")
+        resp = request_get(url=url, timeout=120)
+        soup = bs(resp.text, 'html.parser')
+        rows = soup.find_all('tr')
+        for row in rows:
+            cols = row.find_all('td')
+            if len(cols) > 0:
+                crp_nm = cols[0].text.strip()
+                crp_cd = cols[1].text.strip()
+                crp_ctp = cols[2].text.strip()
+                crp_prod = cols[3].text.strip()
+                crp_info = {'crp_cd': crp_cd, 'crp_nm': crp_nm, 'crp_ctp': crp_ctp, 'crp_prod': crp_prod}
+                list_final.append(crp_cd)
+        # print(list_final)
+        # print(len(list_final))
+        return list_final
+
+
+
+if __name__ == '__main__':
+    #from api
+    a = CorpList()
+    b = a.get_stock_code_list()
+
+    #from lib that doesnt work website
+    url = '{}?method=download&searchType=13'.format('http://kind.krx.co.kr/corpgeneral/corpList.do')
+    c = []
+    url = '{}&marketType={}'.format(url, "allMkt")
+    resp = request_get(url=url, timeout=120)
+    soup = bs(resp.text, 'html.parser')
+    rows = soup.find_all('tr')
+    for row in rows:
+        cols = row.find_all('td')
+        if len(cols) > 0:
+            crp_nm = cols[0].text.strip()
+            crp_cd = cols[1].text.strip()
+            crp_ctp = cols[2].text.strip()
+            crp_prod = cols[3].text.strip()
+            crp_info = {'crp_cd': crp_cd, 'crp_nm': crp_nm, 'crp_ctp': crp_ctp, 'crp_prod': crp_prod}
+            c.append(crp_cd)
+
+    print(c)
+    print(len(c))
