@@ -1,7 +1,8 @@
 import sqlite3
 from sqlite3 import Error
 
-class sqldb:
+
+class SqlDB(object):
     def __init__(self):
         self.cur_conn = ""
 
