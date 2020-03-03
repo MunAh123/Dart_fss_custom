@@ -8,10 +8,8 @@ class GetData(object):
         self.sample_code = "005930"
         self.soup = ""
 
-    def create_soup(self, code: str = False):
+    def create_soup(self, code: str = "005930"):
         temp_code = code
-        if not temp_code:
-            temp_code = self.sample_code
         url = self.urlbase1 + temp_code + self.urlbase2
 
         open_url = requests.get(url)
@@ -20,6 +18,7 @@ class GetData(object):
         return soup
 
     def create_data_top1(self):
+        print(self.soup)
         tbody = self.soup('div', {'class': "corp_group2"})[0].find_all('dl')
         clean_table = []
         counter = 0

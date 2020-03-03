@@ -1,0 +1,13 @@
+needed files:
+corp.py
+compguidedata.py
+sqlite.py
+save_sql.py
+
+corp.py: will extract the list of company from either the api or the website.
+
+compguidedata.py: will extract the data using the code from another website, webcrawling.
+
+sqlite.py will provide the platform to create the db, table and rows into the database
+
+save_sql.py: will use corp.py, sqlite.py and compguidedata.py to get data and save into the sqlite internally.

@@ -89,3 +89,7 @@ class LoadApi(object):
         response = requests.get(url)
         return response
 
+if __name__ == '__main__':
+    url = LoadApi()
+    urll = url.get_url()
+    print(urll)
