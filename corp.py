@@ -10,12 +10,13 @@ class CorpList(object):
     def __init__(self):
         self.__corp_bs = []
         self._load()
+        self.api_key = "f93aa72ed8104217931e191505590ee5b2c9b91e"
+
 
     def download_corp_list(self):
         # not in use currently
-        api_key = "f93aa72ed8104217931e191505590ee5b2c9b91e"
         corp_url = "https://opendart.fss.or.kr/api/corpCode.xml"
-        url = '{}?crtfc_key={}'.format(corp_url, api_key)
+        url = '{}?crtfc_key={}'.format(corp_url, self.api_key)
         print(url)
         resp = request_get(url=url, timeout=120)
         return resp
@@ -86,24 +87,8 @@ class CorpList(object):
 if __name__ == '__main__':
     #from api
     a = CorpList()
-    b = a.get_stock_code_list()
-
-    #from lib that doesnt work website
-    url = '{}?method=download&searchType=13'.format('http://kind.krx.co.kr/corpgeneral/corpList.do')
-    c = []
-    url = '{}&marketType={}'.format(url, "allMkt")
-    resp = request_get(url=url, timeout=120)
-    soup = bs(resp.text, 'html.parser')
-    rows = soup.find_all('tr')
-    for row in rows:
-        cols = row.find_all('td')
-        if len(cols) > 0:
-            crp_nm = cols[0].text.strip()
-            crp_cd = cols[1].text.strip()
-            crp_ctp = cols[2].text.strip()
-            crp_prod = cols[3].text.strip()
-            crp_info = {'crp_cd': crp_cd, 'crp_nm': crp_nm, 'crp_ctp': crp_ctp, 'crp_prod': crp_prod}
-            c.append(crp_cd)
-
+    a._load()
+    # b = a.find_by_stock_code(309900).find("corp_code").get_text()
+    # print(b)
+    c = a.get_stock_code_list_web()
     print(c)
-    print(len(c))
